@@ -65,10 +65,11 @@ create table if not exists terenuri(
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
 );
 
-create table if not exists dezvoltator(
+create table if not exists muzeu_trofee(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
-	nume_companie varchar not null,
-	investitii_euro integer not null,
+	nume_competite_castgata varchar not null,
+	sport_competite_castgata varchar null,
+	loc_obtinut smallint not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
 );
