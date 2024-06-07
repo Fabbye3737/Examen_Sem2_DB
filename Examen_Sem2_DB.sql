@@ -51,7 +51,7 @@ create table if not exists cladiri(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
 	deservire_cladire varchar(100) not null,
-	capacitate_sportivi_personal int null,
+	capacitate_sportivi_personal integer null,
 	geom geometry ('Point', 4326) not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
 );
@@ -67,9 +67,9 @@ create table if not exists terenuri(
 
 create table if not exists muzeu_trofee(
 	fid serial primary key,
-	complex_sportiv_fid integer not null,
-	nume_competite_castgata varchar(100) not null,
-	sport_competite_castgata varchar(100) null,
+	complex_sportiv_fid integer not null unique,
+	nume_competite varchar(100) not null,
+	sport_competite varchar(100) null,
 	loc_obtinut smallint not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
 );
