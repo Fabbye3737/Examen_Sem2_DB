@@ -33,7 +33,7 @@ create table if not exists piste_alergat(
 create table if not exists retea_utilitati(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
-	tip_utilitate smallint not null,
+	tip_utilitate varchar(100) not null,
 	geom geometry ('LineString', 4326) not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
 );
@@ -41,7 +41,7 @@ create table if not exists retea_utilitati(
 create table if not exists puncte_resurse(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
-	tip_resurse varchar not null,
+	tip_resurse varchar(100) not null,
 	contra_cost bool not null,
 	geom geometry ('Point', 4326) not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
@@ -50,7 +50,7 @@ create table if not exists puncte_resurse(
 create table if not exists cladiri(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
-	deservire_cladire varchar not null,
+	deservire_cladire varchar(100) not null,
 	capacitate_sportivi_personal int null,
 	geom geometry ('Point', 4326) not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
@@ -59,7 +59,7 @@ create table if not exists cladiri(
 create table if not exists terenuri(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
-	tip_teren varchar not null,
+	tip_teren varchar(100) not null,
 	orar date not null,
 	geom geometry ('Polygon', 4326) not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
@@ -68,8 +68,27 @@ create table if not exists terenuri(
 create table if not exists muzeu_trofee(
 	fid serial primary key,
 	complex_sportiv_fid integer not null,
-	nume_competite_castgata varchar not null,
-	sport_competite_castgata varchar null,
+	nume_competite_castgata varchar(100) not null,
+	sport_competite_castgata varchar(100) null,
 	loc_obtinut smallint not null,
 	foreign key(complex_sportiv_fid) references complex_sportiv(fid)
 );
+
+select nume, ST_Area(geom) as Area from complex_sportiv;
+select nume, ST_Perimeter(geom) as Perimeter from complex_sportiv;
+select fid, nume, ST_Centroid(geom) as Centroid from complex_sportiv;
+
+select ST_Length(geom) as length from piste_alergat;
+select complex_sportiv_fid, numar_piste, ST_Centroid(geom) as Centroid from piste_alergat;
+
+select fid, complex_sportiv_fid, ST_Length(geom) as length from retea_utilitati;
+select tip_utilitate, ST_Centroid(geom) as Centroid from retea_utilitati;
+
+select fid, complex_sportiv_fid, ST_Astext(geom) as location from puncte_resurse;
+select tip_resurse, contra_cost, ST_Astext(geom) as location from puncte_resurse where contra_cost = true;
+
+select ST_Centroid(geom) as Centroid from cladiri;
+select deservire_cladire, ST_Perimeter(geom) as perimeter from cladiri;
+
+select fid, ST_Area(geom) as area from terenuri;
+select complex_sportiv_fid, tip_teren, ST_Perimeter(geom) as perimeter from terenuri;
