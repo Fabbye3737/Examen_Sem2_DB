@@ -86,9 +86,11 @@ select tip_utilitate, ST_Centroid(geom) as Centroid from retea_utilitati;
 
 select fid, complex_sportiv_fid, ST_Astext(geom) as location from puncte_resurse;
 select tip_resurse, contra_cost, ST_Astext(geom) as location from puncte_resurse where contra_cost = true;
+select tip_resurse, ST_Buffer(geom, 0.2) from puncte_resurse;
+select ST_X(geom) X, ST_Y(geom) Y from puncte_resurse;
 
 select ST_Centroid(geom) as Centroid from cladiri;
-select deservire_cladire, ST_Perimeter(geom) as perimeter from cladiri;
+select deservire_cladire, ST_Buffer(geom, 0.5) from cladiri;
 
 select fid, ST_Area(geom) as area from terenuri;
 select complex_sportiv_fid, tip_teren, ST_Perimeter(geom) as perimeter from terenuri;
